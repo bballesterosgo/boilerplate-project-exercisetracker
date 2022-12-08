@@ -27,15 +27,22 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
+//GET resquest to /api/users
+app.get('/api/users', async (req, res) => {
+  const users = await User.find();
+  res.send(users);
+})
+
+
 
 //POST  TO /api/users username
 app.post("/api/users", async (req, res) => {
   const username = req.body.username;
 
-  const foundUser = User.findOne({ username });
+  const foundUser = await User.findOne({ username });
 
-  if(){
-    
+  if(foundUser){
+    res.json(foundUser);
   }
 
   const user = await User.create({
